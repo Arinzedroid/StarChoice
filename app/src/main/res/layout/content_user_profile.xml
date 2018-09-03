@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.tech.arinzedroid.starchoice.activity.UserProfileActivity"
+    tools:showIn="@layout/activity_user_profile">
+
+    <TextView
+        android:id="@+id/pmt_text"
+        android:text="Payment History"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/pmt_text"
+        android:layout_marginTop="10dp"
+        android:id="@+id/recycler_view"
+        tools:listitem="@layout/payment_history_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animationCache="false"
+        android:clipToPadding="false"
+        android:scrollingCache="false"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+
+</RelativeLayout>
