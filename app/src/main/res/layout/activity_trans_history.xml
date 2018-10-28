@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.TransHistoryActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <ScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp" >
+
+            <TextView
+                android:id="@+id/payment_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Make New Payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/payment_text"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/amt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="Enter amount"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/myBlack"
+                android:textStyle="bold" />
+            <ProgressBar
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:background="@color/colorAccent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="Confirm Payment"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/amt"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/confirm_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/confirm_btn"
+                android:layout_marginTop="10dp"
+                android:id="@+id/recycler_view"
+                tools:listitem="@layout/payment_history_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animationCache="false"
+                android:clipToPadding="false"
+                android:scrollingCache="false"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+            <ProgressBar
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/confirm_btn"
+                android:id="@+id/progress_bar2"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--app:srcCompat="@drawable/ic_add" />-->
+
+</RelativeLayout>

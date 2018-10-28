@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.activity.RegisterUserActivity">
+
+    <ScrollView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TextView
+                android:text="User Details"
+                android:id="@+id/user_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/line1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_text"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <EditText
+                android:hint="Agent name"
+                android:inputType="text"
+                android:id="@+id/agent_name"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/edit_text_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line1"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <EditText
+                android:hint="Fullname"
+                android:inputType="text"
+                android:id="@+id/name"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/edit_text_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/agent_name"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <EditText
+                android:hint="Phone"
+                android:inputType="phone"
+                android:id="@+id/phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/edit_text_bg" />
+
+            <EditText
+                android:hint="Address"
+                android:inputType="text"
+                android:id="@+id/address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/edit_text_bg"/>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:text="Next of Kin Details"
+                android:id="@+id/kin_text"
+               app:layout_constraintTop_toBottomOf="@+id/address"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/line2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kin_text"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <EditText
+                android:hint="Next of kin fullname"
+                android:inputType="text"
+                android:id="@+id/kin_name"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/edit_text_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line2"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <EditText
+                android:hint="Next of kin phone"
+                android:inputType="phone"
+                android:id="@+id/kin_phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kin_name"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/edit_text_bg" />
+
+            <EditText
+                android:hint="Next of kin address"
+                android:inputType="text"
+                android:id="@+id/kin_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kin_phone"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/edit_text_bg"/>
+
+
+            <Button
+                android:layout_marginTop="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kin_address"
+                android:text="Register"
+                android:id="@+id/register_btn"
+                android:background="@drawable/rounded_button"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                />
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/progress_bar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
+

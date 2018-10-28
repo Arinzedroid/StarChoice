@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="com.tech.arinzedroid.starchoice.activity.LoginActivity"
+    tools:context=".ui.activity.LoginActivity"
     >
 
     <ImageView
@@ -42,6 +42,12 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:textColor="@color/white"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

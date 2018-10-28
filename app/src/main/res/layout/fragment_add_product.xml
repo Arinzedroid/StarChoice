@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="500dp"
+    android:minHeight="450dp"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.AddProduct">
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintBaseline_toBaselineOf="@+id/confirm_btn"-->
+
+
+    <TextView
+       android:text="Select Products"
+        android:id="@+id/product_tv"
+        android:layout_above="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <Button
+        android:id="@+id/confirm_btn"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--app:layout_constraintTop_toBottomOf="@+id/confirm_btn"-->
+    <Spinner
+        android:layout_marginTop="10dp"
+        android:id="@+id/spinner"
+        android:layout_below="@+id/confirm_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </Spinner>
+    <!--app:layout_constraintTop_toBottomOf="@+id/spinner"-->
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/spinner"
+        android:layout_marginTop="10dp"
+        android:id="@+id/recycler_view"
+        tools:listitem="@layout/product_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animationCache="false"
+        android:clipToPadding="false"
+        android:scrollingCache="false"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
