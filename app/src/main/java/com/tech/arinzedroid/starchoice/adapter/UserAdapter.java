@@ -43,7 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder> {
         holder.nameTv.setText(data.getFullname());
         holder.dateTV.setText(DateTimeUtils.parseDateTime(data.getDateCreated()));
         holder.amountTv.setText(FormatUtil.formatPrice(data.getTotalAmount()));
-        holder.serialTv.setText(String.valueOf(count)); count--;
+        holder.serialTv.setText(String.valueOf(count - position));
     }
 
     @Override
