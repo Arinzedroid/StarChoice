@@ -3,6 +3,6 @@
     android:viewportWidth="357"
     android:width="14dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#323232"
+    <path android:fillColor="#FC9B00"
         android:pathData="M357,35.7l-35.7,-35.7l-142.8,142.8l-142.8,-142.8l-35.7,35.7l142.8,142.8l-142.8,142.8l35.7,35.7l142.8,-142.8l142.8,142.8l35.7,-35.7l-142.8,-142.8z"/>
 </vector>

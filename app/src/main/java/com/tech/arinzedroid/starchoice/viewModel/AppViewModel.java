@@ -1,6 +1,7 @@
 package com.tech.arinzedroid.starchoice.viewModel;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.tech.arinzedroid.starchoice.models.AgentModel;
@@ -58,8 +59,13 @@ public class AppViewModel extends ViewModel {
             productsLiveData = appRepo.getProducts();
         return productsLiveData;
     }
+
     public LiveData<Boolean> addUserProducts(List<UserProductsModel> userProductsModelsList){
         return appRepo.addUserProducts(userProductsModelsList);
+    }
+
+    public LiveData<Boolean> addProducts(ProductModel productsModel){
+        return appRepo.addProducts(productsModel);
     }
 
     public LiveData<List<UserProductsModel>> getUserProducts(String userId){

@@ -10,4 +10,5 @@ public class Constants {
     public static final String USER_DATA = "USER_DATA";
     public static final String AGENT_DATA = "AGENT_DATA";
     public static final String USER_PRODUCT = "USER_PRODUCT";
+    public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
 }

@@ -55,14 +55,5 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         return productModelList.size();
     }
 
-//    @Override
-//    public long getItemId(int position) {
-//        return position;
-//    }
-//
-//    @Override
-//    public int getItemViewType(int position) {
-//        return position;
-//    }
 
 }

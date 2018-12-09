@@ -192,7 +192,7 @@ public class AppRepo {
         for(UserProductsModel data : userProductsModelList){
             firestoreDB.collection(USER_PRODUCTS).document(data.getId())
                     .set(data)
-                    .addOnSuccessListener(docRef -> success.postValue(true) )
+                    .addOnSuccessListener(docRef -> success.postValue(true))
                     .addOnFailureListener(ex -> success.postValue(false));
         }
         return success;
@@ -207,6 +207,8 @@ public class AppRepo {
                 .get()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
+                        QuerySnapshot dc = task.getResult();
+                        Object vb = dc.getDocuments();
                         for(QueryDocumentSnapshot doc : task.getResult()){
                             userProductsModels.add(doc.toObject(UserProductsModel.class));
                         }
@@ -239,6 +241,15 @@ public class AppRepo {
                 });
 
         return  productsList;
+    }
+
+    public LiveData<Boolean> addProducts(ProductModel productsModel){
+        final MutableLiveData<Boolean> isSuccessful = new MutableLiveData<>();
+        firestoreDB.collection(PRODUCTS).document(productsModel.getId())
+                .set(productsModel)
+                .addOnSuccessListener(task -> isSuccessful.postValue(true))
+                .addOnFailureListener(task -> isSuccessful.postValue(false));
+        return isSuccessful;
     }
 
 

@@ -23,7 +23,7 @@ public class UserProductViewHolder extends RecyclerView.ViewHolder implements Vi
     @BindView(R.id.product_price)
     public TextView productPriceTv;
     @BindView(R.id.card_view)
-    public View cardView;
+    View cardView;
 
     private UserProductClickedInterface userProductClickedInterface;
 

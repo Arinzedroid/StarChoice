@@ -18,7 +18,7 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder> {
 
     private List<UserModel> userModelList;
-    private UserClickedInterface userClickedInterface; int count = 0;
+    private UserClickedInterface userClickedInterface; private int count = 0;
     public UserAdapter(List<UserModel> userModelList, UserClickedInterface userClickedInterface){
         this.userModelList = userModelList; count = userModelList.size();
         this.userClickedInterface = userClickedInterface;
@@ -27,6 +27,13 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder> {
     public void clearAdapter(){
         userModelList.clear();
         count = userModelList.size();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<UserModel> userModels){
+        userModelList.clear();
+        userModelList.addAll(userModels);
+        count = userModels.size();
         notifyDataSetChanged();
     }
 

@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minWidth="500dp"
-    android:minHeight="450dp"
-    android:padding="16dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.AddProduct">
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:layout_constraintBaseline_toBaselineOf="@+id/confirm_btn"-->
+    >
 
-
-    <TextView
-       android:text="Select Products"
-        android:id="@+id/product_tv"
-        android:layout_above="@+id/spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <Button
-        android:id="@+id/confirm_btn"
-        android:text="Confirm"
-        android:textColor="@color/white"
-        android:background="@color/colorAccent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <!--app:layout_constraintTop_toBottomOf="@+id/confirm_btn"-->
-    <Spinner
-        android:layout_marginTop="10dp"
-        android:id="@+id/spinner"
-        android:layout_below="@+id/confirm_btn"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:hint="Name"
+                android:inputType="text"
+                android:id="@+id/product_name"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/edit_text_bg"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+            <EditText
+                android:hint="Price"
+                android:inputType="numberDecimal"
+                android:id="@+id/product_price"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@+id/product_name"
+                android:background="@drawable/edit_text_bg"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
 
-    </Spinner>
-    <!--app:layout_constraintTop_toBottomOf="@+id/spinner"-->
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/spinner"
-        android:layout_marginTop="10dp"
-        android:id="@+id/recycler_view"
-        tools:listitem="@layout/product_items"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animationCache="false"
-        android:clipToPadding="false"
-        android:scrollingCache="false"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
-
+            <EditText
+                android:id="@+id/product_desc"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="top"
+                android:layout_below="@+id/product_price"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Description"
+                android:inputType="textMultiLine|textLongMessage"
+                android:paddingEnd="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingStart="10dp"
+                android:singleLine="false" />
+            <Button
+                android:layout_marginTop="40dp"
+                android:textColor="@color/white"
+                android:text="Add"
+                android:id="@+id/register_btn"
+                android:background="@color/colorAccent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_below="@+id/product_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </ScrollView>
     <ProgressBar
-        android:visibility="gone"
-        android:layout_centerInParent="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/progress_bar"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

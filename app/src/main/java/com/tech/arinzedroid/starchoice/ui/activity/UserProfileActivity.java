@@ -14,13 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tech.arinzedroid.starchoice.R;
-import com.tech.arinzedroid.starchoice.adapter.TransHistoryAdapter;
 import com.tech.arinzedroid.starchoice.adapter.UserProductAdapter;
 import com.tech.arinzedroid.starchoice.interfaces.UserProductClickedInterface;
-import com.tech.arinzedroid.starchoice.models.ProductModel;
 import com.tech.arinzedroid.starchoice.models.UserModel;
 import com.tech.arinzedroid.starchoice.models.UserProductsModel;
-import com.tech.arinzedroid.starchoice.ui.fragment.AddProduct;
+import com.tech.arinzedroid.starchoice.ui.fragment.SelectProductFragment;
 import com.tech.arinzedroid.starchoice.util.Constants;
 import com.tech.arinzedroid.starchoice.util.FormatUtil;
 import com.tech.arinzedroid.starchoice.viewModel.AppViewModel;
@@ -34,8 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class UserProfileActivity extends AppCompatActivity implements
-        AddProduct.OnFragmentInteractionListener, UserProductClickedInterface{
+public class UserProfileActivity extends AppCompatActivity implements UserProductClickedInterface{
 
     @BindView(R.id.name)
     TextView nameTv;
@@ -105,23 +102,6 @@ public class UserProfileActivity extends AppCompatActivity implements
         }
     }
 
-    private void getAllProducts(){
-        progressBar.setVisibility(View.VISIBLE);
-        findViewById(R.id.fab).setEnabled(false);
-        appViewModel.getProducts().observe(this, products -> {
-            if(products != null && !products.isEmpty()){
-                findViewById(R.id.fab).setEnabled(true);
-                progressBar.setVisibility(View.GONE);
-                DialogFragment fragment = AddProduct.newInstance(products,userModel);
-                fragment.show(getSupportFragmentManager(),"dialogFragment");
-            }else{
-                progressBar.setVisibility(View.GONE);
-                findViewById(R.id.fab).setEnabled(true);
-                Toast.makeText(this, "No products available", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void computeTransValuesForUser(List<UserProductsModel> userProductsModels){
         if(userProductsModels != null && !userProductsModels.isEmpty()){
             int totalBought = 0; double totalAmt = 0, totalAmtPaid = 0, totalAmtRem = 0;
@@ -163,7 +143,9 @@ public class UserProfileActivity extends AppCompatActivity implements
 
     @OnClick(R.id.fab)
     public void fabClick(View v){
-        getAllProducts();
+        Intent intent = new Intent(this,AddProductActivity.class);
+        intent.putExtra(Constants.USER_DATA,Parcels.wrap(userModel));
+        startActivity(intent);
     }
 
     @OnClick(R.id.refresh)
@@ -176,20 +158,6 @@ public class UserProfileActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode == Constants.ACTIVITY_RESULT && resultCode == RESULT_OK){
             getUserProducts();
-        }
-    }
-
-    @Override
-    public void onConfirmClicked(List<UserProductsModel> userProductsModels) {
-        if(userProductsModels != null && !userProductsModels.isEmpty()){
-            if(userProductAdapter != null){
-                userProductAdapter.addProducts(userProductsModels);
-                this.userProductsModelList.addAll(userProductsModels);
-            }else{
-                userProductAdapter = new UserProductAdapter(userProductsModels,this);
-                userProductRv.setAdapter(userProductAdapter);
-                this.userProductsModelList = new ArrayList<>(userProductsModels);
-            }
         }
     }
 

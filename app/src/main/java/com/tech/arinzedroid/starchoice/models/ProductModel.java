@@ -1,13 +1,16 @@
 package com.tech.arinzedroid.starchoice.models;
 
+import com.tech.arinzedroid.starchoice.util.RandomString;
+
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.Random;
 
 @Parcel
 public class ProductModel {
 
-    String id;
+    String id = new RandomString().nextString();
     String productName;
     double price;
     String desc;

@@ -1,6 +1,7 @@
 package com.tech.arinzedroid.starchoice.ui.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,11 +9,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tech.arinzedroid.starchoice.R;
 import com.tech.arinzedroid.starchoice.adapter.UserAdapter;
@@ -25,6 +32,7 @@ import com.tech.arinzedroid.starchoice.viewModel.AppViewModel;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,10 +49,13 @@ public class MainActivity extends AppCompatActivity implements UserClickedInterf
     SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.agent_name)
     TextView agentNameTv;
+    @BindView(R.id.search_et)
+    EditText searchET;
 
     private UserAdapter adapter;
     private AppViewModel appViewModel;
     private List<UserModel> userModelList;
+    private List<UserModel> searchedUserList;
     private PrefUtils prefUtils;
 
 
@@ -61,9 +72,11 @@ public class MainActivity extends AppCompatActivity implements UserClickedInterf
         //get agent details
         retrieveAgentData(getIntent());
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setTitle("Home Page");
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Home");
+        }
 
         mSwipeRefresh.setOnRefreshListener(this);
         mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary,
@@ -77,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements UserClickedInterf
                         RegisterUserActivity.class)),Constants.USER));
 
         retrieveUserData();
+
+        onSearch();
     }
 
     private void retrieveAgentData(Intent intent){
@@ -94,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements UserClickedInterf
         appViewModel.getUserDataList(prefUtils.getAgentId()).observe(this, userDataList -> {
             if(userDataList != null && userDataList.size() > 0){
                 this.userModelList = userDataList;
+                searchedUserList = userDataList;
                 adapter = new UserAdapter(userDataList,this);
                 userRv.setAdapter(adapter);
             }else {
@@ -104,6 +120,71 @@ public class MainActivity extends AppCompatActivity implements UserClickedInterf
             mSwipeRefresh.setRefreshing(false);
         });
     }
+
+    private void onSearch(){
+        searchET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                performSearch(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    private void performSearch(String query){
+        if(!TextUtils.isEmpty(query)){
+            if(userModelList != null && !userModelList.isEmpty()){
+                List<UserModel> userModels = new ArrayList<>();
+                for(UserModel userModel : userModelList){
+                    if(userModel.getFullname().toLowerCase().contains(query.toLowerCase())){
+                        userModels.add(userModel);
+                    }
+                }
+                searchedUserList = userModels;
+                adapter = new UserAdapter(userModels,this);
+                userRv.setAdapter(adapter);
+            }
+        }else{
+            searchedUserList = userModelList;
+            adapter.addAll(userModelList);
+        }
+    }
+
+    private void toggleSoftKeyPad(boolean show){
+        InputMethodManager inputMethodManager =
+                (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(inputMethodManager != null){
+            if(show){
+                inputMethodManager.showSoftInput(searchET,InputMethodManager.SHOW_IMPLICIT);
+            }else{
+                inputMethodManager.hideSoftInputFromWindow(searchET.getWindowToken(),0);
+            }
+
+        }
+    }
+
+//    @Override
+//    public void finish(){
+//        if(searchET.hasFocus()){
+//            searchET.setText("");
+//            searchET.clearFocus();
+//            searchET.setVisibility(View.GONE);
+//            if(getSupportActionBar() != null){
+//                getSupportActionBar().setTitle("Home");
+//            }
+//        }else{
+//            super.finish();
+//        }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -134,6 +215,16 @@ public class MainActivity extends AppCompatActivity implements UserClickedInterf
         if (id == R.id.action_refresh) {
             retrieveUserData();
             return true;
+        }else if(id == R.id.action_search){
+            if(getSupportActionBar() != null){
+                getSupportActionBar().setTitle("");
+                if(searchET.getVisibility() == View.GONE){
+                    searchET.setVisibility(View.VISIBLE);
+                    searchET.requestFocus();
+                    toggleSoftKeyPad(true);
+                }
+            }
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -141,11 +232,15 @@ public class MainActivity extends AppCompatActivity implements UserClickedInterf
 
     @Override
     public void userData(int position) {
-        //Toast.makeText(this, "Item clicked at position " + position, Toast.LENGTH_SHORT).show();
-        UserModel data = userModelList.get(position);
-        Intent intent = new Intent(this,UserProfileActivity.class);
-        intent.putExtra(Constants.USER_DATA, Parcels.wrap(data));
-        startActivity(intent);
+        if(searchedUserList != null && !searchedUserList.isEmpty() && searchedUserList.size() > position){
+            UserModel data = searchedUserList.get(position);
+            Intent intent = new Intent(this,UserProfileActivity.class);
+            intent.putExtra(Constants.USER_DATA, Parcels.wrap(data));
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "Invalid user selected", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

@@ -1,16 +1,15 @@
 package com.tech.arinzedroid.starchoice.ui.fragment;
 
-import android.app.Dialog;
+
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,7 +36,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class AddProduct extends DialogFragment implements AdapterView.OnItemSelectedListener, RemoveProductInterface{
+public class SelectProductFragment extends Fragment implements
+        AdapterView.OnItemSelectedListener, RemoveProductInterface{
 
 
 
@@ -50,25 +50,23 @@ public class AddProduct extends DialogFragment implements AdapterView.OnItemSele
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    private List<ProductModel> productModelList = new ArrayList<>();
+
     private List<UserProductsModel> selectedProducts = new ArrayList<>();
     private List<ProductModel> adapterList = new ArrayList<>();
     private ProductAdapter productAdapter;
-    private OnFragmentInteractionListener mListener;
     private UserModel userModel;
     private AppViewModel appViewModel;
 
-    private static final String PRODUCTS = "PRODUCTS";
+
     private static final String USER_MODEL= "USER_MODEL";
 
-    public AddProduct() {
+    public SelectProductFragment() {
         //Required empty public constructor
     }
 
-    public static AddProduct newInstance(List<ProductModel> productModels, UserModel userModel){
-        AddProduct fragment = new AddProduct();
+    public static SelectProductFragment newInstance(UserModel userModel){
+        SelectProductFragment fragment = new SelectProductFragment();
         Bundle arg = new Bundle();
-        arg.putParcelable(PRODUCTS, Parcels.wrap(productModels));
         arg.putParcelable(USER_MODEL,Parcels.wrap(userModel));
         fragment.setArguments(arg);
         return fragment;
@@ -78,18 +76,10 @@ public class AddProduct extends DialogFragment implements AdapterView.OnItemSele
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the user_product_items for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_product, container, false);
+        View view = inflater.inflate(R.layout.fragment_select_product, container, false);
         ButterKnife.bind(this,view);
 
-        ArrayAdapter<ProductModel> spinnerAdapter = new ArrayAdapter<>(getContext(),
-               android.R.layout.simple_spinner_item,productModelList);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        productAdapter = new ProductAdapter(adapterList,this);
-        productRecyclerView.setAdapter(productAdapter);
-
-        productItemsSpinner.setAdapter(spinnerAdapter);
-        productItemsSpinner.setOnItemSelectedListener(this);
+       getAndDisplayProducts();
 
         return view;
     }
@@ -99,19 +89,8 @@ public class AddProduct extends DialogFragment implements AdapterView.OnItemSele
         super.onCreate(savedInstanceState);
         appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
         if(getArguments() != null){
-            productModelList = Parcels.unwrap(getArguments().getParcelable(PRODUCTS));
             userModel = Parcels.unwrap(getArguments().getParcelable(USER_MODEL));
         }
-    }
-
-    @Override
-    @NonNull
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-
-        // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
     }
 
     @OnClick(R.id.confirm_btn)
@@ -119,17 +98,37 @@ public class AddProduct extends DialogFragment implements AdapterView.OnItemSele
         processData();
     }
 
+    private void getAndDisplayProducts() {
+        appViewModel.getProducts().observe(this, productsModels -> {
+            if(productsModels != null){
+                ArrayAdapter<ProductModel> spinnerAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_item,productsModels);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                productAdapter = new ProductAdapter(adapterList,this);
+                productRecyclerView.setAdapter(productAdapter);
+
+                productItemsSpinner.setAdapter(spinnerAdapter);
+                productItemsSpinner.setOnItemSelectedListener(this);
+            }
+        });
+    }
+
     private void processData(){
         progressBar.setVisibility(View.VISIBLE);
+        confirmButton.setEnabled(false);
         appViewModel.addUserProducts(selectedProducts).observe(this, isSuccessful -> {
             if(isSuccessful != null && isSuccessful){
-                if(mListener != null)
-                    mListener.onConfirmClicked(selectedProducts);
-                dismiss();
-            }else {
-                Toast.makeText(getActivity(), "Operation was not successful. Please try again later", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Products added to clients acct successfully", Toast.LENGTH_SHORT).show();
+                if(getActivity() != null){
+                    getActivity().finish();
+                }
+            }else{
+                progressBar.setVisibility(View.GONE);
+                confirmButton.setEnabled(true);
+                Toast.makeText(getActivity(), "Product could not be added to this client. " +
+                        "Please try again later", Toast.LENGTH_SHORT).show();
             }
-            progressBar.setVisibility(View.GONE);
         });
     }
 
@@ -147,18 +146,12 @@ public class AddProduct extends DialogFragment implements AdapterView.OnItemSele
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -177,9 +170,5 @@ public class AddProduct extends DialogFragment implements AdapterView.OnItemSele
             selectedProducts.remove(position);
             productAdapter.removeProduct(position);
         }
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onConfirmClicked(List<UserProductsModel> userProductModels);
     }
 }
